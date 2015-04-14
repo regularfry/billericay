@@ -5,5 +5,6 @@ class TitleTest < CapybaraTestCase
     visit("/")
     title_node = page.find("h1")
     assert(title_node, "There is no statement title.")
+    assert_match(/statement/i, title_node.text)
   end
 end
