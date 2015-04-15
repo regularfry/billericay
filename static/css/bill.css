@@ -1,0 +1,61 @@
+/* Blueprint overrides */
+
+body {
+    background-color: #ccc;
+}
+
+.outer {
+    width: 990px;
+    background-color: #fff;
+    padding-top: 20px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 3em;
+}
+
+dt,dd{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+dt {
+    float: left;
+    margin-right: 10em;
+}
+
+dd {
+    clear: right;
+}
+
+th.cost,td.cost {
+    text-align: right;
+}
+
+footer {
+    text-align: center;
+}
+
+.owing {
+    background-color: #c3d9ff;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: right;
+}
+
+.section hr {
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+
+#statement .owing {
+    font-size: 3em;
+    line-height: 1em;
+    margin-bottom: 0;
+}
+
+#statement tbody tr td{
+    background-color: #fff;
+}

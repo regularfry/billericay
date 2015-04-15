@@ -1,90 +1,108 @@
 !!! 5
-%h1 Your statement
-#statement
-  - if data['total']
-    %dt Total owed:
-    %dd.total= money(data['total'])
-  - if dates = data['statement']
-    %table
-      - if dates['due']
-        %tr
-          %td Payment due by:
-          %td#due= date(dates['due'])
-      - if dates['period']
-        %tr
-          %td Statement period:
-          %td#period
-            = date(dates.get("period", "from"))
-            to
-            = date(dates.get("period", "to"))
+%html
+  %head
+    %link(rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen,projection")
+    %link(rel="stylesheet" href="/css/bill.css")
+  %body
+    .outer
+      .container
+        .span-24
+          %h1 Your statement
+        #statement.section.span-24
+          .span-10
+            - if dates = data['statement']
+              %table
+                - if dates['due']
+                  %tr
+                    %td Payment due by:
+                    %td#due= date(dates['due'])
+                - if dates['period']
+                  %tr
+                    %td Statement period:
+                    %td#period
+                      = date(dates.get("period", "from"))
+                      to
+                      = date(dates.get("period", "to"))
+          .owing.span-10.last.push-4
+            - if data['total']
+              %p
+                Total owed:
+                %span.total= money(data['total'])
+          %hr/
 
-- if package = data["package"]
-  #package
-    - if (subs = package["subscriptions"]) && subs.any?
-      %h2 Subscriptions
-      %table
-        %thead
-          %tr
-            %th
-            %th Cost
-        %tbody
-          - subs.each do |sub_row|
-            %tr.sub
-              %td.name= sub_row['name']
-              %td.cost= money(sub_row['cost'])
-    %dt Packages subtotal:
-    %dd.total= money(package['total'])
+        - if package = data["package"]
+          #package.section.span-24
+            - if (subs = package["subscriptions"]) && subs.any?
+              %h2 Subscriptions
+              %table
+                %thead
+                  %tr
+                    %th
+                    %th.cost Cost
+                %tbody
+                  - subs.each do |sub_row|
+                    %tr.sub
+                      %td.name= sub_row['name']
+                      %td.cost= money(sub_row['cost'])
+            .owing
+              %dt Packages subtotal:
+              %dd.total= money(package['total'])
+            %hr/
 
-- if call_charges = data['callCharges']
-  #calls
-    - if (calls = call_charges['calls']) && calls.any?
-      %h2 Calls
-      %table
-        %thead
-          %tr
-            %th Number called
-            %th Call length
-            %th Cost
-        %tbody
-          - calls.each do |call_row|
-            %tr.call
-              %td.called= call_row['called']
-              %td.duration= call_row['duration']
-              %td.cost= money(call_row['cost'])
-    %dt Calls subtotal:
-    %dd.total= money(call_charges['total'])
+        - if call_charges = data['callCharges']
+          #calls.section.span-24
+            - if (calls = call_charges['calls']) && calls.any?
+              %h2 Calls
+              %table
+                %thead
+                  %tr
+                    %th Number called
+                    %th Call length
+                    %th.cost Cost
+                %tbody
+                  - calls.each do |call_row|
+                    %tr.call
+                      %td.called= call_row['called']
+                      %td.duration= call_row['duration']
+                      %td.cost= money(call_row['cost'])
+            .owing
+              %dt Calls subtotal:
+              %dd.total= money(call_charges['total'])
+            %hr/
 
-- if store_transactions = data['skyStore']
-  #store
-    - if (rentals = store_transactions['rentals']) && rentals.any?
-      %h2 Sky Store Rentals
-      %table#rentals
-        %thead
-          %tr
-            %th Title
-            %th Cost
-        %tbody
-          - rentals.each do |rental_row|
-            %tr.trans.rental
-              %td.title= rental_row['title']
-              %td.cost= money(rental_row['cost'])
-    - if (purchases = store_transactions['buyAndKeep']) && purchases.any?
-      %h2 Sky Store Purchases
-      %table#purchases
-        %thead
-          %tr
-            %th Title
-            %th Cost
-        %tbody
-          - purchases.each do |purchase_row|
-            %tr.trans.purchase
-              %td.title= purchase_row['title']
-              %td.cost= money(purchase_row['cost'])
-    %dt Sky Store subtotal:
-    %dd.total= money(store_transactions['total'])
+        - if store_transactions = data['skyStore']
+          #store.section.span-24
+            - if (rentals = store_transactions['rentals']) && rentals.any?
+              %h2 Sky Store Rentals
+              %table#rentals
+                %thead
+                  %tr
+                    %th Title
+                    %th.cost Cost
+                %tbody
+                  - rentals.each do |rental_row|
+                    %tr.trans.rental
+                      %td.title= rental_row['title']
+                      %td.cost= money(rental_row['cost'])
+            - if (purchases = store_transactions['buyAndKeep']) && purchases.any?
+              %h2 Sky Store Purchases
+              %table#purchases
+                %thead
+                  %tr
+                    %th Title
+                    %th.cost Cost
+                %tbody
+                  - purchases.each do |purchase_row|
+                    %tr.trans.purchase
+                      %td.title= purchase_row['title']
+                      %td.cost= money(purchase_row['cost'])
+            .owing
+              %dt Sky Store subtotal:
+              %dd.total= money(store_transactions['total'])
+            %hr/
 
-%footer
-  - if generated = data.get("statement", "generated")
-    %p
-      Generated on
-      %span#generated= date(generated)
+        %footer.span-24
+          - if generated = data.get("statement", "generated")
+            %p
+              Generated on
+              %span#generated= date(generated)
