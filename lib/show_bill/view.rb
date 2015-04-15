@@ -20,7 +20,8 @@ module ShowBill
 
     private
     def template
-      (ShowBill.templates + "bill.haml").read
+      str = (ShowBill.templates + "bill.haml").read
+      str.force_encoding("UTF-8")
     end
 
 
