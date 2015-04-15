@@ -37,5 +37,10 @@ class TitleTest < CapybaraTestCase
     assert_match(/statement/i, title_node.text)
   end
 
+   def test_shows_statement_total
+     total_node = page.find("#statement #total")
+     assert_match(/£136.03\b/, total_node.text)
+  end
+
 
 end
