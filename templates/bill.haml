@@ -3,4 +3,4 @@
 #statement
   - if data['total']
     %dt Total owed:
-    %dd#total= "£"+data['total']
+    %dd#total= "£%0.2f" % data['total'].to_f
