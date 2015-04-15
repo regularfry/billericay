@@ -10,4 +10,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "nokogiri"
+  gem "mocha"
 end

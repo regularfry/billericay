@@ -1,5 +1,6 @@
 !!! 5
 %h1 Your statement
 #statement
-  %dt Total owed:
-  %dd#total= "£"+data['total']
+  - if data['total']
+    %dt Total owed:
+    %dd#total= "£"+data['total']

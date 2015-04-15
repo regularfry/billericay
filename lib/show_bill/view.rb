@@ -9,13 +9,12 @@ module ShowBill
 
     attr_accessor :data
 
-    def initialize(bill_hash = {})
-      @data = Map.new(bill_hash)
+    def initialize
       @haml_engine = Haml::Engine.new(template)
     end
 
-
-    def to_s
+    def render(bill_hash)
+      @data = Map.new(bill_hash)
       @haml_engine.render(binding)
     end
 
