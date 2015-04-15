@@ -3,7 +3,7 @@ require 'show_bill'
 require 'test/unit'
 
 Capybara.default_driver = :selenium
-Capybara.app = ShowBill
+Capybara.app = ShowBill::App
 
 class CapybaraTestCase < Test::Unit::TestCase
   include Capybara::DSL

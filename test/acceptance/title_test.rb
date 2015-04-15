@@ -21,7 +21,7 @@ class TitleTest < CapybaraTestCase
 
   def setup
     @bill_server = self.class.bill_server
-    ShowBill.bill_href = @bill_server.href
+    ShowBill::App.bill_href = @bill_server.href
     visit("/")
   end
 
