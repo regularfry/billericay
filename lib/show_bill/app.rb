@@ -11,7 +11,7 @@ module ShowBill
 
     define do
       on root do
-        res.write(View.new.to_s)
+        res.write(View.new("total" => "136.03").to_s)
       end
     end
 
