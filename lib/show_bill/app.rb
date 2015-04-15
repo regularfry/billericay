@@ -5,8 +5,10 @@ require_relative("retriever")
 module ShowBill
   class App < Cuba
 
+    DEFAULT_BILL_HREF = "http://safe-plains-5453.herokuapp.com/bill.json"
+
     def self.retriever
-      @retriever || Retriever.new(self.bill_href)
+      @retriever || Retriever.new(self.bill_href || DEFAULT_BILL_HREF)
     end
 
     def self.view
