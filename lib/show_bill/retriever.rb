@@ -12,7 +12,12 @@ module ShowBill
 
     def get
       response = Net::HTTP.get_response(@bill_uri)
-      [JSON.parse(response.body), nil]
+      case response
+      when Net::HTTPOK
+        [JSON.parse(response.body), nil]
+      else
+        [nil, response.body]
+      end
     end
 
 

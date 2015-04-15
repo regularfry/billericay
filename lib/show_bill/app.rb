@@ -5,12 +5,8 @@ require_relative("retriever")
 module ShowBill
   class App < Cuba
 
-    def self.bill_href=(bill_href)
-      self.settings[:bill_href] = bill_href
-    end
-
     def self.retriever
-      @retriever || Retriever.new
+      @retriever || Retriever.new(self.bill_href)
     end
 
     def self.view
@@ -20,11 +16,12 @@ module ShowBill
     class << self
       attr_writer :retriever
       attr_writer :view
+      attr_accessor :bill_href
     end
 
     define do
       on root do
-        bill_data = self.class.retriever.get()
+        bill_data,err = self.class.retriever.get()
         res.write(self.class.view.render(bill_data))
       end
     end
