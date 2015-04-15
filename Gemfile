@@ -11,4 +11,5 @@ group :test do
   gem "selenium-webdriver"
   gem "nokogiri"
   gem "mocha"
+  gem "webmock"
 end
