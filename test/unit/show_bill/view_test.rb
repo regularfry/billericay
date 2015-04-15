@@ -26,6 +26,50 @@ module ShowBill
       assert_equal("£71.40", node.text())
     end
 
+
+    def test_shows_calls
+      call = { "called" => "07716393769", "duration" => "00:23:03", "cost" => 2.13 }
+      doc = html("callCharges" => {"calls" => [call,call]})
+      assert(calls_node = doc.at("#calls"), "No calls shown")
+      call_nodes = calls_node.search("tr.call")
+      assert_equal(2, call_nodes.length, "Wrong number of calls shown")
+      assert_equal(call['called'], call_nodes.first.at(".called").text())
+    end
+
+
+    def test_shows_calls_subtotal
+      doc = html("callCharges" => {"total" => 59.64})
+      assert(node = doc.at("#calls .total"), "No calls total shown")
+      assert_equal("£59.64", node.text())
+    end
+
+
+    def test_shows_store_rentals
+      rental = { "title" => "50 Shades of Grey", "cost" => 4.99 }
+      doc = html("skyStore" => {"rentals" => [rental, rental]})
+      assert(rental_node = doc.at("#store #rentals"), "No rental transactions were shown")
+      rental_nodes = rental_node.search("tr.rental")
+      assert_equal(2, rental_nodes.length, "Wrong number of rentals shown")
+      assert_equal(rental['title'], rental_nodes.first.at(".title").text())
+    end
+
+
+    def test_shows_store_purchases
+      purchase = { "title" => "That's what she said", "cost" => 9.99 }
+      doc = html("skyStore" => {"buyAndKeep" => [purchase, purchase]})
+      assert(purchase_node = doc.at("#store #purchases"),
+             "No purchase transactions were shown")
+      purchase_nodes = purchase_node.search("tr.purchase")
+      assert_equal(2, purchase_nodes.length, "Wrong number of purchases shown")
+      assert_equal(purchase['title'], purchase_nodes.first.at(".title").text())
+    end
+
+    def test_shows_store_subtotal
+      doc = html("skyStore" => {"total" => 24.97})
+      assert(node = doc.at("#store .total"), "No store total shown")
+      assert_equal("£24.97", node.text())
+    end
+
     private
     def html(data)
       rendered_view = View.new.render(data)

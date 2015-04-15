@@ -7,7 +7,7 @@
 
 - if package = data["package"]
   #package
-    - if subs = package["subscriptions"]
+    - if (subs = package["subscriptions"]) && subs.any?
       %h2 Subscriptions
       %table
         %thead
@@ -15,11 +15,57 @@
             %th
             %th Cost
         %tbody
-          - subs.each do |row|
+          - subs.each do |sub_row|
             %tr.sub
-              %td.name= row['name']
-              %td.cost= money(row['cost'])
-    %dt Package subtotal:
+              %td.name= sub_row['name']
+              %td.cost= money(sub_row['cost'])
+    %dt Packages subtotal:
     %dd.total= money(package['total'])
 
+- if call_charges = data['callCharges']
+  #calls
+    - if (calls = call_charges['calls']) && calls.any?
+      %h2 Calls
+      %table
+        %thead
+          %tr
+            %th Number called
+            %th Call length
+            %th Cost
+        %tbody
+          - calls.each do |call_row|
+            %tr.call
+              %td.called= call_row['called']
+              %td.duration= call_row['duration']
+              %td.cost= money(call_row['cost'])
+    %dt Calls subtotal:
+    %dd.total= money(call_charges['total'])
 
+- if store_transactions = data['skyStore']
+  #store
+    - if (rentals = store_transactions['rentals']) && rentals.any?
+      %h2 Sky Store Rentals
+      %table#rentals
+        %thead
+          %tr
+            %th Title
+            %th Cost
+        %tbody
+          - rentals.each do |rental_row|
+            %tr.trans.rental
+              %td.title= rental_row['title']
+              %td.cost= money(rental_row['cost'])
+    - if (purchases = store_transactions['buyAndKeep']) && purchases.any?
+      %h2 Sky Store Purchases
+      %table#purchases
+        %thead
+          %tr
+            %th Title
+            %th Cost
+        %tbody
+          - purchases.each do |purchase_row|
+            %tr.trans.purchase
+              %td.title= purchase_row['title']
+              %td.cost= money(purchase_row['cost'])
+    %dt Sky Store subtotal:
+    %dd.total= money(store_transactions['total'])
