@@ -18,3 +18,5 @@ namespace :test do
     end
   end
 end
+
+task :test => %w{test:unit test:acceptance}
