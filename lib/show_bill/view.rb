@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'haml'
 require 'map'
 
@@ -16,6 +17,10 @@ module ShowBill
     def render(bill_hash)
       @data = Map.new(bill_hash)
       @haml_engine.render(binding)
+    end
+
+    def money(amount_pounds)
+      "£%0.2f" % amount_pounds.to_f
     end
 
     private

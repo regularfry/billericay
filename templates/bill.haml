@@ -3,4 +3,23 @@
 #statement
   - if data['total']
     %dt Total owed:
-    %dd#total= "£%0.2f" % data['total'].to_f
+    %dd.total= money(data['total'])
+
+- if package = data["package"]
+  #package
+    - if subs = package["subscriptions"]
+      %h2 Subscriptions
+      %table
+        %thead
+          %tr
+            %th
+            %th Cost
+        %tbody
+          - subs.each do |row|
+            %tr.sub
+              %td.name= row['name']
+              %td.cost= money(row['cost'])
+    %dt Package subtotal:
+    %dd.total= money(package['total'])
+
+
