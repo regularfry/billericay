@@ -4,6 +4,19 @@
   - if data['total']
     %dt Total owed:
     %dd.total= money(data['total'])
+  - if dates = data['statement']
+    %table
+      - if dates['due']
+        %tr
+          %td Payment due by:
+          %td#due= date(dates['due'])
+      - if dates['period']
+        %tr
+          %td Statement period:
+          %td#period
+            = date(dates.get("period", "from"))
+            to
+            = date(dates.get("period", "to"))
 
 - if package = data["package"]
   #package
@@ -69,3 +82,9 @@
               %td.cost= money(purchase_row['cost'])
     %dt Sky Store subtotal:
     %dd.total= money(store_transactions['total'])
+
+%footer
+  - if generated = data.get("statement", "generated")
+    %p
+      Generated on
+      %span#generated= date(generated)

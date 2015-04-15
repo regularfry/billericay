@@ -70,6 +70,25 @@ module ShowBill
       assert_equal("£24.97", node.text())
     end
 
+    def test_shows_statement_dates
+      doc = html("statement" => {
+                   "due" => "2015-01-25",
+                   "period" => {
+                     "from" => "2015-01-26",
+                     "to" => "2015-02-25"}})
+
+      assert(due_node = doc.at("#statement #due"))
+      assert_equal("25 Jan 2015", due_node.text())
+      assert(period_node = doc.at("#statement #period"))
+      assert_match(/26 Jan 2015\s+to\s+25 Feb 2015/, period_node.text())
+    end
+
+    def test_shows_generated_date
+      doc = html("statement" => {"generated" => "2015-01-11"})
+      assert(generated_node = doc.at("#generated"))
+      assert_equal("11 Jan 2015", generated_node.text())
+    end
+
     private
     def html(data)
       rendered_view = View.new.render(data)

@@ -6,6 +6,23 @@ require 'show_bill'
 
 module ShowBill
 
+  module ViewHelpers
+    # Render amount_pounds to a string.  We're passed float pounds for
+    # money values in the input JSON, so there's a limit to how
+    # careful it's worth being here.
+    def money(amount_pounds)
+      "£%0.2f" % amount_pounds.to_f
+    end
+
+    # Take in a date in "2015-1-11" format, spit out a date in "11 Jan
+    # 2015" format, which is more human-friendly
+    def date(iso8601_date)
+      Date.parse(iso8601_date).strftime("%-d %b %Y")
+    end
+
+  end
+
+
   class View
 
     attr_accessor :data
@@ -19,9 +36,7 @@ module ShowBill
       @haml_engine.render(binding)
     end
 
-    def money(amount_pounds)
-      "£%0.2f" % amount_pounds.to_f
-    end
+    include ViewHelpers
 
     private
     def template
@@ -31,6 +46,8 @@ module ShowBill
 
 
   end # module View
+
+
 
 
 end # module ShowBill
