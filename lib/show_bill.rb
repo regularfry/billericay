@@ -1,11 +1,18 @@
 require 'cuba'
 require 'haml'
 
-class ShowBill < Cuba; end
+class ShowBill < Cuba
 
-ShowBill.define do
-  on root do
-    haml_engine = Haml::Engine.new(File.read("templates/bill.haml"))
-    res.write(haml_engine.render)
+  def self.bill_href=(bill_href)
+    self.settings[:bill_href] = bill_href
   end
-end
+
+  define do
+    on root do
+      haml_engine = Haml::Engine.new(File.read("templates/bill.haml"))
+      res.write(haml_engine.render)
+    end
+  end
+
+
+end # class ShowBill
